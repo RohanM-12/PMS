@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
+app.use(express.json());
 dotenv.config();
 const port = 5000;
 connectDB(process.env.MONGODB_URL);
@@ -12,7 +13,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.use("/api/v1/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });

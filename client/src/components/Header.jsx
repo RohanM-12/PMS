@@ -13,14 +13,17 @@ const Header = () => {
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        <div className="text-2xl font-bold text-blue-500 cursor-pointer">
-          MY-Doctor
+        <div className="text-2xl font-bold text-blue-600 cursor-pointer">
+          <h1 className="text-2xl font-bold text-blue-600">MediConsult</h1>
         </div>
 
         <nav className="hidden md:flex items-center space-x-6">
-          <Button type="link" className="text-gray-600 hover:text-blue-500">
-            Home
-          </Button>
+          <Link to={"/"}>
+            <Button type="link" className="text-gray-600 hover:text-blue-500">
+              Home
+            </Button>
+          </Link>
+
           <Button type="link" className="text-gray-600 hover:text-blue-500">
             Features
           </Button>
@@ -58,9 +61,11 @@ const Header = () => {
       >
         <Menu mode="vertical">
           <Menu.Item key="1">
-            <Button type="link" className="text-gray-600">
-              Home
-            </Button>
+            <Link to={"/"}>
+              <Button type="link" className="text-gray-600 hover:text-blue-500">
+                Home
+              </Button>
+            </Link>
           </Menu.Item>
           <Menu.Item key="2">
             <Button type="link" className="text-gray-600">
@@ -72,18 +77,11 @@ const Header = () => {
               About
             </Button>
           </Menu.Item>
-          <Menu.Item key="4" className="space-y-2">
-            <Button type="primary" block className="bg-blue-500">
-              Login
-            </Button>
-
-            <Button
-              type="default"
-              block
-              className="border-blue-500 text-blue-500"
-            >
-              Sign Up
-            </Button>
+          <Menu.Item type="link" key="4" className="space-y-2">
+            Login
+          </Menu.Item>
+          <Menu.Item type="link" key="5" className="space-y-2">
+            Sing-Up
           </Menu.Item>
         </Menu>
       </Drawer>
