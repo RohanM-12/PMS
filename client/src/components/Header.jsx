@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { MenuOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Drawer, Menu } from "antd";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -27,12 +28,17 @@ const Header = () => {
             About
           </Button>
           <div className="space-x-4">
-            <Button type="primary" className="bg-blue-500">
-              Login
-            </Button>
-            <Button type="default" className="border-blue-500 text-blue-500">
-              Sign Up
-            </Button>
+            <Link to={"/login"}>
+              <Button type="primary" className="bg-blue-500">
+                Login
+              </Button>
+            </Link>
+            <Link to={"/signup"}>
+              <Button type="default" className="border-blue-500 text-blue-500">
+                Sign Up
+              </Button>
+            </Link>
+
             <Button shape="circle" icon={<UserOutlined />} />
           </div>
         </nav>
@@ -70,6 +76,7 @@ const Header = () => {
             <Button type="primary" block className="bg-blue-500">
               Login
             </Button>
+
             <Button
               type="default"
               block
