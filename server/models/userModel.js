@@ -28,6 +28,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    charges: {
+      type: String,
+      required: false,
+    },
+    discount: {
+      type: String,
+      required: false,
+    },
     address: {
       type: {},
       required: false,

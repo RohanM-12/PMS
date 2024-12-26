@@ -1,17 +1,27 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Select, Card } from "antd";
-
+import axios from "axios";
+import { toast } from "react-toastify";
+import { PercentageOutlined } from "@ant-design/icons";
 const { Option } = Select;
 
 const SignupPage = () => {
-  const [role, setRole] = useState("patient"); // Default role
+  const [role, setRole] = useState(0); // Default role
 
   const handleRoleChange = (value) => {
     setRole(value);
   };
 
-  const onFinish = (values) => {
-    console.log("Signup Data:", values);
+  const onFinish = async (values) => {
+    try {
+      console.log("Signup Data:", values);
+      const result = await axios.post("/auth/signup", values);
+      console.log(result);
+      toast.success("Registered Successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error("error while registration");
+    }
   };
 
   return (
@@ -24,7 +34,7 @@ const SignupPage = () => {
           <Form.Item
             label="Role"
             name="role"
-            initialValue="patient"
+            initialValue={"Patient"}
             rules={[{ required: true, message: "Please select your role!" }]}
           >
             <Select
@@ -32,8 +42,8 @@ const SignupPage = () => {
               className="w-full"
               placeholder="Select Role"
             >
-              <Option value="doctor">Doctor</Option>
-              <Option value="patient">Patient</Option>
+              <Option value={1}>Doctor</Option>
+              <Option value={0}>Patient</Option>
             </Select>
           </Form.Item>
 
@@ -82,7 +92,7 @@ const SignupPage = () => {
             <Input.TextArea placeholder="Enter your address" />
           </Form.Item>
 
-          {role === "doctor" && (
+          {role === 1 && (
             <>
               <Form.Item
                 label="Qualification"
@@ -96,7 +106,38 @@ const SignupPage = () => {
               >
                 <Input placeholder="Enter your qualification" />
               </Form.Item>
-
+              <Form.Item
+                label="Consultaion charges"
+                name="charges"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter your charges!",
+                  },
+                ]}
+              >
+                <Input
+                  type="number"
+                  placeholder="Enter your charges"
+                  addonAfter={" ₹"}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Consultaion Discount"
+                name="discount"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter first consultation discount!",
+                  },
+                ]}
+              >
+                <Input
+                  type="number"
+                  placeholder="Enter first consultation discount"
+                  addonAfter={<PercentageOutlined />}
+                />
+              </Form.Item>
               <Form.Item
                 label="Speciality"
                 name="speciality"
@@ -121,7 +162,7 @@ const SignupPage = () => {
         </Form>
 
         <div className="text-center mt-4 text-gray-600">
-          Already have an account?{" "}
+          Already have an account?
           <Button type="link" className="text-blue-500">
             Login
           </Button>

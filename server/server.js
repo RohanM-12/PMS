@@ -2,18 +2,19 @@ import express from "express";
 import connectDB from "./db.js";
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
+import doctorRoutes from "./routes/doctorRoutes.js";
 
+import cors from "cors";
 const app = express();
+app.use(cors());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 dotenv.config();
 const port = 5000;
 connectDB(process.env.MONGODB_URL);
-// app.use(express().json());
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
 
 app.use("/api/auth", authRoutes);
+app.use("/api/user", doctorRoutes);
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });

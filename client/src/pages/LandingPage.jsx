@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Card } from "antd";
 import { RightOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
@@ -17,9 +18,15 @@ const HomePage = () => {
             Get first-time consultation discounts with new doctors and manage
             your healthcare efficiently with MediConsult.
           </p>
-          <Button size="large" type="primary" className="bg-blue-500 shadow-md">
-            Book an Appointment <RightOutlined />
-          </Button>
+          <Link to={"/appointment"}>
+            <Button
+              size="large"
+              type="primary"
+              className="bg-blue-500 shadow-md"
+            >
+              Book an Appointment <RightOutlined />
+            </Button>
+          </Link>
         </div>
       </section>
 
@@ -64,13 +71,15 @@ const HomePage = () => {
             Join us today and start benefiting from first-time discounts and
             effortless appointment management.
           </p>
-          <Button
-            size="large"
-            type="default"
-            className="bg-white text-blue-500"
-          >
-            Get Started
-          </Button>
+          <Link to={"/appointment"}>
+            <Button
+              size="large"
+              type="default"
+              className="bg-white text-blue-500"
+            >
+              Get Started
+            </Button>
+          </Link>
         </div>
       </section>
 

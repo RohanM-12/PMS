@@ -1,10 +1,22 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Select, Card } from "antd";
-
-const { Option } = Select;
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const LoginPage = () => {
-  const onFinish = (values) => {};
+  const onFinish = async (values) => {
+    try {
+      const { data } = await axios.post("/auth/login", values);
+      toast.success(
+        `${
+          parseInt(data.data.role) === 0 ? "Patient" : "Doctor"
+        } Logged in successfully`
+      );
+    } catch (error) {
+      console.log(error);
+      toast.error("login falied");
+    }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
