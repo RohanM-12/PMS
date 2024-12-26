@@ -21,7 +21,7 @@ const AppointmentPage = () => {
   const navigate = useNavigate();
   const [doctors, setDoctors] = useState([]);
   const [charges, setCharges] = useState(0);
-  const [discount, setDiscount] = useState(20); // 20% discount for first consultation
+  const [discount, setDiscount] = useState(20);
   const [finalAmount, setFinalAmount] = useState(0);
 
   async function fetchData() {

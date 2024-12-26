@@ -1,13 +1,27 @@
 import React, { useState } from "react";
-import { MenuOutlined, UserOutlined } from "@ant-design/icons";
+import { LogoutOutlined, MenuOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Drawer, Menu } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
+  const [auth, setAuth] = useAuth();
+  const navigate = useNavigate();
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  const handleLogout = () => {
+    setAuth({
+      ...auth,
+      user: null,
+      token: "",
+    });
+    localStorage.removeItem("auth");
+    toast.success("Logged out Successfully");
+    navigate("/login");
   };
 
   return (
@@ -24,26 +38,42 @@ const Header = () => {
             </Button>
           </Link>
 
-          <Button type="link" className="text-gray-600 hover:text-blue-500">
+          {/* <Button type="link" className="text-gray-600 hover:text-blue-500">
             Features
-          </Button>
+          </Button> */}
           <Button type="link" className="text-gray-600 hover:text-blue-500">
             About
           </Button>
           <div className="space-x-4">
-            <Link to={"/login"}>
-              <Button type="primary" className="bg-blue-500">
-                Login
-              </Button>
-            </Link>
-            <Link to={"/signup"}>
-              <Button type="default" className="border-blue-500 text-blue-500">
-                Sign Up
-              </Button>
-            </Link>
-
-            <Button shape="circle" icon={<UserOutlined />} />
+            {!auth.user && (
+              <>
+                <Link to={"/login"}>
+                  <Button type="primary" className="bg-blue-500">
+                    Login
+                  </Button>
+                </Link>
+                <Link to={"/signup"}>
+                  <Button
+                    type="default"
+                    className="border-blue-500 text-blue-500"
+                  >
+                    Sign Up
+                  </Button>
+                </Link>{" "}
+              </>
+            )}
           </div>
+          {auth.user && (
+            <>
+              <Button onClick={handleLogout} danger type="default">
+                <div className="flex justify-center items-center gap-2">
+                  LogOut
+                  <LogoutOutlined className="text-lg" />
+                </div>
+              </Button>
+              <Button shape="circle" icon={<UserOutlined />} />
+            </>
+          )}
         </nav>
 
         <MenuOutlined
