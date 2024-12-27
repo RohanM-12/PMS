@@ -13,12 +13,14 @@ import {
 import "antd/dist/reset.css";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router";
+import { useAuth } from "../context/authContext";
 const { Option } = Select;
 const { Title, Text } = Typography;
-
+import { toast } from "react-toastify";
 const AppointmentPage = () => {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const navigate = useNavigate();
+  const [auth, setAuth] = useAuth();
   const [doctors, setDoctors] = useState([]);
   const [charges, setCharges] = useState(0);
   const [discount, setDiscount] = useState(20);
@@ -35,6 +37,7 @@ const AppointmentPage = () => {
   }
 
   useEffect(() => {
+    // console.log(auth);
     fetchData();
   }, []);
 
@@ -49,11 +52,41 @@ const AppointmentPage = () => {
     }
   };
 
-  const onFinish = (values) => {
-    console.log("Appointment Details: ", values);
-    navigate(
-      "/booked/?paymentNumber=DKEJ-7887-DJR875&bookingDate=2024-03-20&doctorName=Dr.Jones"
-    );
+  const onFinish = async (values) => {
+    try {
+      const appointmentData = {
+        doctorId: selectedDoctor._id,
+        patientId: auth?.user?._id,
+        patientName: values.name,
+        patientEmail: values.email,
+        patientPhone: values.phone,
+        appointmentDate: values.appointmentDate,
+        address: values.address,
+        charges,
+      };
+
+      const response = await axios.post(
+        "/appointment/book-appointment",
+        appointmentData
+      );
+      console.log(response);
+      if (response.data.discountMessage.length > 1) {
+        toast.info("discount is already applied");
+      }
+
+      if (response.data.success) {
+        console.log("Appointment booked successfully:", response.data);
+        navigate(
+          `/booked/?paymentNumber=${response.data.appointment._id}&bookingDate=${response.data.appointment.appointmentDate}&doctorName=${selectedDoctor.name}`
+        );
+      } else {
+        console.error("Error booking appointment:", response.data.message);
+        // alert(response.data.message || "Unable to book the appointment.");
+      }
+    } catch (error) {
+      console.error("Error saving appointment:", error);
+      // alert("Something went wrong. Please try again.");
+    }
   };
 
   return (
